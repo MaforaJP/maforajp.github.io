@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Character Quiz</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Styles for radio button visual state */
+        input[type="radio"]:checked + label {
+            background-color: #E21E34;
+            color: #ffffff;
+            border: 2px solid #C21A2F;
+        }
+
+        /* New pulse animation */
+        @keyframes pulse-in {
+            0% { transform: scale(0.5); opacity: 0.5; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .pulse-animation {
+            animation: pulse-in 0.5s ease-in-out;
+        }
+
+        /* Hide radio button circles */
+        input[type="radio"] {
+            display: none;
+        }
+
+        /* Hide all question pages by default and show the active one */
+        .question-page {
+            display: none;
+        }
+        .question-page.active {
+            display: block;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-4 sm:p-8">
+
+    <div class="bg-white w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-2xl p-6 sm:p-8 rounded-2xl shadow-xl flex flex-col items-center text-center">
+        <div id="start-container" class="w-full">
+            <img src="https://i-p.rmcdn.net/651d2215ae21b60019215ac4/4442604/image-12bbe42e-35b2-44cc-bff6-ed19b7035ae4.jpg?w=706&e=webp&cX=11&cY=0&cW=1894&cH=1937" alt="A beautiful fantasy banner with a question mark" class="w-full h-auto rounded-xl mb-6">
+            <h1 class="text-3xl sm:text-4xl font-bold text-gray-800 mb-4">Which Character Are You?</h1>
+            <p class="text-gray-600 text-lg sm:text-xl mb-6">Answer 10 simple questions to discover your unique character!</p>
+            <button id="start-button" class="w-full bg-red-600 text-white font-semibold py-4 px-6 rounded-lg text-lg hover:bg-red-700 transition-colors transform hover:scale-105 duration-200 ease-in-out">Start Quiz</button>
+        </div>
+
+        <div id="quiz-container" class="w-full hidden">
+            <div id="progress-dots" class="flex justify-center items-center gap-2 sm:gap-4 mb-6"></div>
+            <form id="quiz-form" class="w-full">
+                <!-- Question 1 -->
+                <div id="q1" class="question-page active">
+                    <div class="mb-8 text-left">
+                        <p class="text-xl sm:text-2xl font-semibold text-gray-700 mb-4"><img src="https://placehold.co/40x40/E21E34/ffffff?text=?" alt="Question icon" class="inline-block align-middle mr-2 rounded-full">1. What's your favorite breakfast?</p>
+                        <input type="radio" name="question0" value="1" data-points="1" id="q0-option-1">
+                        <label for="q0-option-1" class="option-label flex items-center p-4 mb-2 bg-gray-200 rounded-lg cursor-pointer transition-colors hover:bg-gray-300 transform hover:scale-[1.01]"><img src="https://placehold.co/30x30/f5f5f5/000000?text=A" alt="Option A icon" class="w-8 h-8 rounded mr-4">A. A big bowl of sugary cereal!</label>
+                        <input type="radio" name="question0" value="2" data-points="2" id="q0-option-2">
+                        <label for="q0-option-2" class="option-label flex items-center p-4 mb-2 bg-gray-200 rounded-lg cursor-pointer transition-colors hover:bg-gray-300 transform hover:scale-[1.01]"><img src="https://placehold.co/30x30/f5f5f5/000000?text=B" alt="Option B icon" class="w-8 h-8 rounded mr-4">B. Fluffy pancakes with syrup.</label>
+                        <input type="radio" name="question0" value="3" data-points="3" id="q0-option-3">
+                        <label for="q0-option-3" class="option-label flex items-center p-4 mb-2 bg-gray-200 rounded-lg cursor-pointer transition-colors hover:bg-gray-300 transform hover:scale-[1.01]"><img src="https://placehold.co/30x30/f5f5f5/000000?text=C" alt="Option C icon" class="w-8 h-8 rounded mr-4">C. Toast with a smiley face on it.</label>
+                        <input type="radio" name="question0" value="4" data-points="4" id="q0-option-4">
+                        <label for="q0-option-4" class="option-label flex items-center p-4 mb-2 bg-gray-200 rounded-lg cursor-pointer transition-colors hover:bg-gray-300 transform hover:scale-[1.01]"><img src="https://placehold.co/30x30/f5f5f5/000000?text=D" alt="Option D icon" class="w-8 h-8 rounded mr-4">D. Whatever I can find in the fridge!</label>
+                    </div>
+                    <button type="button" class="next-button w-full bg-red-600 text-white font-semibold py-3 px-6 rounded-lg text-lg hover:bg-red-700 transition-colors transform hover:scale-105 duration-200 ease-in-out">Next</button>
+                </div>
+
+                <!-- Question 2 -->
+                <div id="q2" class="question-page">
+                    <div class="mb-8 text-left">
+                        <p class="text-xl sm:text-2xl font-semibold text-gray-700 mb-4"><img src="https://placehold.co/40x40/E21E34/ffffff?text=?" alt="Question icon" class="inline-block align-middle mr-2 rounded-full">2. What's your superpower of choice?</p>
+                        <input type="radio" name="question1" value="1" data-points="1" id="q1-option-1">
+                        <label for="q1-option-1" class="option-label flex items-center p-4 mb-2 bg-gray-200 rounded-lg cursor-pointer transition-colors hover:bg-gray-300 transform hover:scale-[1.01]"><img src="https://placehold.co/30x30/f5f5f5/000000?text=A" alt="Option A icon" class="w-8 h-8 rounded mr-4">A. The ability to talk to squirrels.</label>
+                        <input type="radio" name="question1" value="2" data-points="2" id="q1-option-2">
+                        <label for="q1-option-2" class="option-label flex items-center p-4 mb-2 bg-gray-200 rounded-lg cursor-pointer transition-colors hover:bg-gray-300 transform hover:scale-[1.01]"><img src="https://placehold.co/30x30/f5f5f5/000000?text=B" alt="Option B icon" class="w-8 h-8 rounded mr-4">B. Super-speed, but only when it's raining.</label>
+                        <input type="radio" name="question1" value="3" data-points="3" id="q1-option-3">
+                        <label for="q1-option-3" class="option-label flex items-center p-4 mb-2 bg-gray-200 rounded-lg cursor-pointer transition-colors hover:bg-gray-300 transform hover:scale-[1.01]"><img src="https://placehold.co/30x30/f5f5f5/000000?text=C" alt="Option C icon" class="w-8 h-8 rounded mr-4">C. Turning vegetables into desserts.</label>
+                        <input type="radio" name="question1" value="4" data-points="4" id="q1-option-4">
+                        <label for="q1-option-4" class="option-label flex items-center p-4 mb-2 bg-gray-200 rounded-lg cursor-pointer transition-colors hover:bg-gray-300 transform hover:scale-[1.01]"><img src="https://placehold.co/30x30/f5f5f5/000000?text=D" alt="Option D icon" class="w-8 h-8 rounded mr-4">D. The power to summon a rubber chicken at will.</label>
+                    </div>
+                    <button type="button" class="next-button w-full bg-red-600 text-white font-semibold py-3 px-6 rounded-lg text-lg hover:bg-red-700 transition-colors transform hover:scale-105 duration-200 ease-in-out">Next</button>
+                </div>
+
+                <!-- Question 3 -->
+                <div id="q3" class="question-page">
+                    <div class="mb-8 text-left">
+                        <p class="text-xl sm:text-2xl font-semibold text-gray-700 mb-4"><img src="https://placehold.co/40x40/E21E34/ffffff?text=?" alt="Question icon" class="inline-block align-middle mr-2 rounded-full">3. Your pet hamster escapes! What do you do?</p>
+                        <input type="radio" name="question2" value="1" data-points="1" id="q2-option-1">
+                        <label for="q2-option-1" class="option-label flex items-center p-4 mb-2 bg-gray-200 rounded-lg cursor-pointer transition-colors hover:bg-gray-300 transform hover:scale-[1.01]"><img src="https://placehold.co/30x30/f5f5f5/000000?text=A" alt="Option A icon" class="w-8 h-8 rounded mr-4">A. Set up a tiny hamster detective agency.</label>
+                        <input type="radio" name="question2" value="2" data-points="2" id="q2-option-2">
+                        <label for="q2-option-2" class="option-label flex items-center p-4 mb-2 bg-gray-200 rounded-lg cursor-pointer transition-colors hover:bg-gray-300 transform hover:scale-[1.01]"><img src="https://placehold.co/30x30/f5f5f5/000000?text=B" alt="Option B icon" class="w-8 h-8 rounded mr-4">B. Follow a trail of sunflower seeds and hope for the best.</label>
+                        <input type="radio" name="question2" value="3" data-points="3" id="q2-option-3">
+                        <label for="q2-option-3" class="option-label flex items-center p-4 mb-2 bg-gray-200 rounded-lg cursor-pointer transition-colors hover:bg-gray-300 transform hover:scale-[1.01]"><img src="https://placehold.co/30x30/f5f5f5/000000?text=C" alt="Option C icon" class="w-8 h-8 rounded mr-4">C. Put up "missing" posters with a hand-drawn picture of him.</label>
+                        <input type="radio" name="question2" value="4" data-points="4" id="q2-option-4">
+                        <label for="q2-option-4" class="option-label flex items-center p-4 mb-2 bg-gray-200 rounded-lg cursor-pointer transition-colors hover:bg-gray-300 transform hover:scale-[1.01]"><img src="https://placehold.co/30x30/f5f5f5/000000?text=D" alt="Option D icon" class="w-8 h-8 rounded mr-4">D. Declare a holiday and celebrate his freedom!</label>
+                    </div>
+                    <button type="button" class="next-button w-full bg-red-600 text-white font-semibold py-3 px-6 rounded-lg text-lg hover:bg-red-700 transition-colors transform hover:scale-105 duration-200 ease-in-out">Next</button>
+                </div>
+
+                <!-- Question 4 -->
+                <div id="q4" class="question-page">
+                    <div class="mb-8 text-left">
+                        <p class="text-xl sm:text-2xl font-semibold text-gray-700 mb-4"><img src="https://placehold.co/40x40/E21E34/ffffff?text=?" alt="Question icon" class="inline-block align-middle mr-2 rounded-full">4. What's your theme song?</p>
+                        <input type="radio" name="question3" value="1" data-points="1" id="q3-option-1">
+                        <label for="q3-option-1" class="option-label flex items-center p-4 mb-2 bg-gray-200 rounded-lg cursor-pointer transition-colors hover:bg-gray-300 transform hover:scale-[1.01]"><img src="https://placehold.co/30x30/f5f5f5/000000?text=A" alt="Option A icon" class="w-8 h-8 rounded mr-4">A. A song with lots of silly sound effects.</label>
+                        <input type="radio" name="question3" value="2" data-points="2" id="q3-option-2">
+                        <label for="q3-option-2" class="option-label flex items-center p-4 mb-2 bg-gray-200 rounded-lg cursor-pointer transition-colors hover:bg-gray-300 transform hover:scale-[1.01]"><img src="https://placehold.co/30x30/f5f5f5/000000?text=B" alt="Option B icon" class="w-8 h-8 rounded mr-4">B. A song about napping.</label>
+                        <input type="radio" name="question3" value="3" data-points="3" id="q3-option-3">
+                        <label for="q3-option-3" class="option-label flex items-center p-4 mb-2 bg-gray-200 rounded-lg cursor-pointer transition-colors hover:bg-gray-300 transform hover:scale-[1.01]"><img src="https://placehold.co/30x30/f5f5f5/000000?text=C" alt="Option C icon" class="w-8 h-8 rounded mr-4">C. The "doo-doo-doo" from a shark song.</label>
+                        <input type="radio" name="question3" value="4" data-points="4" id="q3-option-4">
+                        <label for="q3-option-4" class="option-label flex items-center p-4 mb-2 bg-gray-200 rounded-lg cursor-pointer transition-colors hover:bg-gray-300 transform hover:scale-[1.01]"><img src="https://placehold.co/30x30/f5f5f5/000000?text=D" alt="Option D icon" class="w-8 h-8 rounded mr-4">D. A triumphant song about eating a sandwich.</label>
+                    </div>
+                    <button type="button" class="next-button w-full bg-red-600 text-white font-semibold py-3 px-6 rounded-lg text-lg hover:bg-red-700 transition-colors transform hover:scale-105 duration-200 ease-in-out">Next</button>
+                </div>
+
+                <!-- Question 5 -->
+                <div id="q5" class="question-page">
+                    <div class="mb-8 text-left">
+                        <p class="text-xl sm:text-2xl font-semibold text-gray-700 mb-4"><img src="https://placehold.co/40x40/E21E34/ffffff?text=?" alt="Question icon" class="inline-block align-middle mr-2 rounded-full">5. You find a tiny, confused robot. What do you do?</p>
+                        <input type="radio" name="question4" value="1" data-points="1" id="q4-option-1">
+                        <label for="q4-option-1" class="option-label flex items-center p-4 mb-2 bg-gray-200 rounded-lg cursor-pointer transition-colors hover:bg-gray-300 transform hover:scale-[1.01]"><img src="https://placehold.co/30x30/f5f5f5/000000?text=A" alt="Option A icon" class="w-8 h-8 rounded mr-4">A. Give it a tiny, tiny hug.</label>
+                        <input type="radio" name="question4" value="2" data-points="2" id="q4-option-2">
+                        <label for="q4-option-2" class="option-label flex items-center p-4 mb-2 bg-gray-200 rounded-lg cursor-pointer transition-colors hover:bg-gray-300 transform hover:scale-[1.01]"><img src="https://placehold.co/30x30/f5f5f5/000000?text=B" alt="Option B icon" class="w-8 h-8 rounded mr-4">B. Try to fix it with a spoon and some glitter.</label>
+                        <input type="radio" name="question4" value="3" data-points="3" id="q4-option-3">
+                        <label for="q4-option-3" class="option-label flex items-center p-4 mb-2 bg-gray-200 rounded-lg cursor-pointer transition-colors hover:bg-gray-300 transform hover:scale-[1.01]"><img src="https://placehold.co/30x30/f5f5f5/000000?text=C" alt="Option C icon" class="w-8 h-8 rounded mr-4">C. Teach it how to do a silly dance.</label>
+                        <input type="radio" name="question4" value="4" data-points="4" id="q4-option-4">
+                        <label for="q4-option-4" class="option-label flex items-center p-4 mb-2 bg-gray-200 rounded-lg cursor-pointer transition-colors hover:bg-gray-300 transform hover:scale-[1.01]"><img src="https://placehold.co/30x30/f5f5f5/000000?text=D" alt="Option D icon" class="w-8 h-8 rounded mr-4">D. Ask it if it knows any good knock-knock jokes.</label>
+                    </div>
+                    <button type="button" class="next-button w-full bg-red-600 text-white font-semibold py-3 px-6 rounded-lg text-lg hover:bg-red-700 transition-colors transform hover:scale-105 duration-200 ease-in-out">Next</button>
+                </div>
+
+                <!-- Question 6 -->
+                <div id="q6" class="question-page">
+                    <div class="mb-8 text-left">
+                        <p class="text-xl sm:text-2xl font-semibold text-gray-700 mb-4"><img src="https://placehold.co/40x40/E21E34/ffffff?text=?" alt="Question icon" class="inline-block align-middle mr-2 rounded-full">6. Your favorite mythical creature is a...</p>
+                        <input type="radio" name="question5" value="1" data-points="1" id="q5-option-1">
+                        <label for="q5-option-1" class="option-label flex items-center p-4 mb-2 bg-gray-200 rounded-lg cursor-pointer transition-colors hover:bg-gray-300 transform hover:scale-[1.01]"><img src="https://placehold.co/30x30/f5f5f5/000000?text=A" alt="Option A icon" class="w-8 h-8 rounded mr-4">A. Unicorn that smells like fresh cookies.</label>
+                        <input type="radio" name="question5" value="2" data-points="2" id="q5-option-2">
+                        <label for="q5-option-2" class="option-label flex items-center p-4 mb-2 bg-gray-200 rounded-lg cursor-pointer transition-colors hover:bg-gray-300 transform hover:scale-[1.01]"><img src="https://placehold.co/30x30/f5f5f5/000000?text=B" alt="Option B icon" class="w-8 h-8 rounded mr-4">B. Dragon that sneezes bubbles.</label>
+                        <input type="radio" name="question5" value="3" data-points="3" id="q5-option-3">
+                        <label for="q5-option-3" class="option-label flex items-center p-4 mb-2 bg-gray-200 rounded-lg cursor-pointer transition-colors hover:bg-gray-300 transform hover:scale-[1.01]"><img src="https://placehold.co/30x30/f5f5f5/000000?text=C" alt="Option C icon" class="w-8 h-8 rounded mr-4">C. Grumpy but cuddly goblin.</label>
+                        <input type="radio" name="question5" value="4" data-points="4" id="q5-option-4">
+                        <label for="q5-option-4" class="option-label flex items-center p-4 mb-2 bg-gray-200 rounded-lg cursor-pointer transition-colors hover:bg-gray-300 transform hover:scale-[1.01]"><img src="https://placehold.co/30x30/f5f5f5/000000?text=D" alt="Option D icon" class="w-8 h-8 rounded mr-4">D. Three-headed dog that only wants belly rubs.</label>
+                    </div>
+                    <button type="button" class="next-button w-full bg-red-600 text-white font-semibold py-3 px-6 rounded-lg text-lg hover:bg-red-700 transition-colors transform hover:scale-105 duration-200 ease-in-out">Next</button>
+                </div>
+
+                <!-- Question 7 -->
+                <div id="q7" class="question-page">
+                    <div class="mb-8 text-left">
+                        <p class="text-xl sm:text-2xl font-semibold text-gray-700 mb-4"><img src="https://placehold.co/40x40/E21E34/ffffff?text=?" alt="Question icon" class="inline-block align-middle mr-2 rounded-full">7. What's your go-to outfit?</p>
+                        <input type="radio" name="question6" value="1" data-points="1" id="q6-option-1">
+                        <label for="q6-option-1" class="option-label flex items-center p-4 mb-2 bg-gray-200 rounded-lg cursor-pointer transition-colors hover:bg-gray-300 transform hover:scale-[1.01]"><img src="https://placehold.co/30x30/f5f5f5/000000?text=A" alt="Option A icon" class="w-8 h-8 rounded mr-4">A. A cape, just in case.</label>
+                        <input type="radio" name="question6" value="2" data-points="2" id="q6-option-2">
+                        <label for="q6-option-2" class="option-label flex items-center p-4 mb-2 bg-gray-200 rounded-lg cursor-pointer transition-colors hover:bg-gray-300 transform hover:scale-[1.01]"><img src="https://placehold.co/30x30/f5f5f5/000000?text=B" alt="Option B icon" class="w-8 h-8 rounded mr-4">B. A mismatched sock and a silly hat.</label>
+                        <input type="radio" name="question6" value="3" data-points="3" id="q6-option-3">
+                        <label for="q6-option-3" class="option-label flex items-center p-4 mb-2 bg-gray-200 rounded-lg cursor-pointer transition-colors hover:bg-gray-300 transform hover:scale-[1.01]"><img src="https://placehold.co/30x30/f5f5f5/000000?text=C" alt="Option C icon" class="w-8 h-8 rounded mr-4">C. Pajamas with cartoon characters on them.</label>
+                        <input type="radio" name="question6" value="4" data-points="4" id="q6-option-4">
+                        <label for="q6-option-4" class="option-label flex items-center p-4 mb-2 bg-gray-200 rounded-lg cursor-pointer transition-colors hover:bg-gray-300 transform hover:scale-[1.01]"><img src="https://placehold.co/30x30/f5f5f5/000000?text=D" alt="Option D icon" class="w-8 h-8 rounded mr-4">D. Whatever feels comfy and lets me do cartwheels.</label>
+                    </div>
+                    <button type="button" class="next-button w-full bg-red-600 text-white font-semibold py-3 px-6 rounded-lg text-lg hover:bg-red-700 transition-colors transform hover:scale-105 duration-200 ease-in-out">Next</button>
+                </div>
+
+                <!-- Question 8 -->
+                <div id="q8" class="question-page">
+                    <div class="mb-8 text-left">
+                        <p class="text-xl sm:text-2xl font-semibold text-gray-700 mb-4"><img src="https://placehold.co/40x40/E21E34/ffffff?text=?" alt="Question icon" class="inline-block align-middle mr-2 rounded-full">8. What's your secret talent?</p>
+                        <input type="radio" name="question7" value="1" data-points="1" id="q7-option-1">
+                        <label for="q7-option-1" class="option-label flex items-center p-4 mb-2 bg-gray-200 rounded-lg cursor-pointer transition-colors hover:bg-gray-300 transform hover:scale-[1.01]"><img src="https://placehold.co/30x30/f5f5f5/000000?text=A" alt="Option A icon" class="w-8 h-8 rounded mr-4">A. I can juggle marshmallows.</label>
+                        <input type="radio" name="question7" value="2" data-points="2" id="q7-option-2">
+                        <label for="q7-option-2" class="option-label flex items-center p-4 mb-2 bg-gray-200 rounded-lg cursor-pointer transition-colors hover:bg-gray-300 transform hover:scale-[1.01]"><img src="https://placehold.co/30x30/f5f5f5/000000?text=B" alt="Option B icon" class="w-8 h-8 rounded mr-4">B. I can make a sound like a dolphin burping.</label>
+                        <input type="radio" name="question7" value="3" data-points="3" id="q7-option-3">
+                        <label for="q7-option-3" class="option-label flex items-center p-4 mb-2 bg-gray-200 rounded-lg cursor-pointer transition-colors hover:bg-gray-300 transform hover:scale-[1.01]"><img src="https://placehold.co/30x30/f5f5f5/000000?text=C" alt="Option C icon" class="w-8 h-8 rounded mr-4">C. I can fold a fitted sheet perfectly.</label>
+                        <input type="radio" name="question7" value="4" data-points="4" id="q7-option-4">
+                        <label for="q7-option-4" class="option-label flex items-center p-4 mb-2 bg-gray-200 rounded-lg cursor-pointer transition-colors hover:bg-gray-300 transform hover:scale-[1.01]"><img src="https://placehold.co/30x30/f5f5f5/000000?text=D" alt="Option D icon" class="w-8 h-8 rounded mr-4">D. I can make my eyebrows dance.</label>
+                    </div>
+                    <button type="button" class="next-button w-full bg-red-600 text-white font-semibold py-3 px-6 rounded-lg text-lg hover:bg-red-700 transition-colors transform hover:scale-105 duration-200 ease-in-out">Next</button>
+                </div>
+
+                <!-- Question 9 -->
+                <div id="q9" class="question-page">
+                    <div class="mb-8 text-left">
+                        <p class="text-xl sm:text-2xl font-semibold text-gray-700 mb-4"><img src="https://placehold.co/40x40/E21E34/ffffff?text=?" alt="Question icon" class="inline-block align-middle mr-2 rounded-full">9. What's the best kind of weather?</p>
+                        <input type="radio" name="question8" value="1" data-points="1" id="q8-option-1">
+                        <label for="q8-option-1" class="option-label flex items-center p-4 mb-2 bg-gray-200 rounded-lg cursor-pointer transition-colors hover:bg-gray-300 transform hover:scale-[1.01]"><img src="https://placehold.co/30x30/f5f5f5/000000?text=A" alt="Option A icon" class="w-8 h-8 rounded mr-4">A. When it rains glitter instead of water.</label>
+                        <input type="radio" name="question8" value="2" data-points="2" id="q8-option-2">
+                        <label for="q8-option-2" class="option-label flex items-center p-4 mb-2 bg-gray-200 rounded-lg cursor-pointer transition-colors hover:bg-gray-300 transform hover:scale-[1.01]"><img src="https://placehold.co/30x30/f5f5f5/000000?text=B" alt="Option B icon" class="w-8 h-8 rounded mr-4">B. A gentle breeze that smells like cookies.</label>
+                        <input type="radio" name="question8" value="3" data-points="3" id="q8-option-3">
+                        <label for="q8-option-3" class="option-label flex items-center p-4 mb-2 bg-gray-200 rounded-lg cursor-pointer transition-colors hover:bg-gray-300 transform hover:scale-[1.01]"><img src="https://placehold.co/30x30/f5f5f5/000000?text=C" alt="Option C icon" class="w-8 h-8 rounded mr-4">C. A sunny day perfect for drawing on the sidewalk with chalk.</label>
+                        <input type="radio" name="question8" value="4" data-points="4" id="q8-option-4">
+                        <label for="q8-option-4" class="option-label flex items-center p-4 mb-2 bg-gray-200 rounded-lg cursor-pointer transition-colors hover:bg-gray-300 transform hover:scale-[1.01]"><img src="https://placehold.co/30x30/f5f5f5/000000?text=D" alt="Option D icon" class="w-8 h-8 rounded mr-4">D. A day so foggy, you can pretend you're an invisible ghost.</label>
+                    </div>
+                    <button type="button" class="next-button w-full bg-red-600 text-white font-semibold py-3 px-6 rounded-lg text-lg hover:bg-red-700 transition-colors transform hover:scale-105 duration-200 ease-in-out">Next</button>
+                </div>
+
+                <!-- Question 10 -->
+                <div id="q10" class="question-page">
+                    <div class="mb-8 text-left">
+                        <p class="text-xl sm:text-2xl font-semibold text-gray-700 mb-4"><img src="https://placehold.co/40x40/E21E34/ffffff?text=?" alt="Question icon" class="inline-block align-middle mr-2 rounded-full">10. What's your favorite sound?</p>
+                        <input type="radio" name="question9" value="1" data-points="1" id="q9-option-1">
+                        <label for="q9-option-1" class="option-label flex items-center p-4 mb-2 bg-gray-200 rounded-lg cursor-pointer transition-colors hover:bg-gray-300 transform hover:scale-[1.01]"><img src="https://placehold.co/30x30/f5f5f5/000000?text=A" alt="Option A icon" class="w-8 h-8 rounded mr-4">A. The "boing" of a spring.</label>
+                        <input type="radio" name="question9" value="2" data-points="2" id="q9-option-2">
+                        <label for="q9-option-2" class="option-label flex items-center p-4 mb-2 bg-gray-200 rounded-lg cursor-pointer transition-colors hover:bg-gray-300 transform hover:scale-[1.01]"><img src="https://placehold.co/30x30/f5f5f5/000000?text=B" alt="Option B icon" class="w-8 h-8 rounded mr-4">B. A cat purring.</label>
+                        <input type="radio" name="question9" value="3" data-points="3" id="q9-option-3">
+                        <label for="q9-option-3" class="option-label flex items-center p-4 mb-2 bg-gray-200 rounded-lg cursor-pointer transition-colors hover:bg-gray-300 transform hover:scale-[1.01]"><img src="https://placehold.co/30x30/f5f5f5/000000?text=C" alt="Option C icon" class="w-8 h-8 rounded mr-4">C. The crinkle of a snack bag.</label>
+                        <input type="radio" name="question9" value="4" data-points="4" id="q9-option-4">
+                        <label for="q9-option-4" class="option-label flex items-center p-4 mb-2 bg-gray-200 rounded-lg cursor-pointer transition-colors hover:bg-gray-300 transform hover:scale-[1.01]"><img src="https://placehold.co/30x30/f5f5f5/000000?text=D" alt="Option D icon" class="w-8 h-8 rounded mr-4">D. The sound of a kazoo playing a serious song.</label>
+                    </div>
+                    <button id="submit-button" type="button" class="w-full bg-red-600 text-white font-semibold py-3 px-6 rounded-lg text-lg hover:bg-red-700 transition-colors transform hover:scale-105 duration-200 ease-in-out">Get My Character</button>
+                </div>
+            </form>
+            <p id="loading-message" class="hidden text-center text-gray-500 mt-8">Unlocking your character...</p>
+        </div>
+
+        <div id="results-container" class="w-full hidden text-center">
+            <h2 class="text-2xl sm:text-3xl font-bold text-gray-700 mb-4">You are...</h2>
+            <h3 id="result-name" class="text-3xl sm:text-4xl font-extrabold text-red-600 mb-2"></h3>
+            <a href="#" id="result-image-link" target="_blank" class="inline-block my-4">
+                <img id="result-image" alt="Character Portrait" class="w-40 h-40 rounded-full object-cover shadow-lg hover:scale-105 transition-transform duration-300 ease-in-out">
+            </a>
+            <p id="result-text" class="text-gray-600 text-lg sm:text-xl leading-relaxed mb-6"></p>
+            <button id="restart-button" class="w-full bg-red-600 text-white font-semibold py-3 px-6 rounded-lg text-lg hover:bg-red-700 transition-colors transform hover:scale-105 duration-200 ease-in-out">Take the Quiz Again</button>
+        </div>
+    </div>
+
+    <script>
+        const characterList = [
+            {
+                name: "Mafora",
+                description: "This silly red bot is always planning something new! Mafora loves to set up events and plans for all the townsfolk to join in on! Sometimes they forget they're a robot and end up messing things up on accident because of it. I guess you could say he’s a bit of a screw up in all best ways!",
+                image: "https://i-p.rmcdn.net/651d2215ae21b60019215ac4/4442604/image-9c11e4c9-461d-4406-9702-3e4850ce8a8d.png?w=433&e=webp&nll=true&cX=4&cY=0&cW=2693&cH=2698",
+                link: "https://maforajp.com/mafora"
+            },
+            {
+                name: "Wins",
+                description: "Wins is a ball of competitive energy waiting to explode. He loves to win and get involved in making fun events for his friends to compete in. If there is any sort of competition you know he’s there.",
+                image: "https://i-p.rmcdn.net/651d2215ae21b60019215ac4/4442604/image-a25a8b8f-2ecd-4b91-a3bf-9ff8f419526e.png?w=434&e=webp&nll=true",
+                link: "https://maforajp.com/wins"
+            },
+            {
+                name: "The Potion Master",
+                description: "You are an alchemist of joy, always mixing things up to create something new and exciting. You thrive on curiosity and love to experiment.",
+                image: "https://placehold.co/200x200/ef4444/ffffff?text=Potion",
+                link: "https://en.wikipedia.org/wiki/Potion"
+            },
+            {
+                name: "The Brave Dragon",
+                description: "You are courageous and unafraid to face challenges. You have a big heart and a fiery spirit, protecting those you care about with great strength.",
+                image: "https://placehold.co/200x200/ef4444/ffffff?text=Dragon",
+                link: "https://en.wikipedia.org/wiki/Dragon"
+            },
+            {
+                name: "The Star-Eater",
+                description: "You have a grand imagination and a taste for the impossible. You are a dreamer who believes in magic and a bit of absurdity to make life interesting.",
+                image: "https://placehold.co/200x200/ef4444/ffffff?text=Star",
+                link: "https://en.wikipedia.org/wiki/Star"
+            },
+            {
+                name: "The Time Traveler",
+                description: "You are an old soul with a knack for nostalgia. You appreciate the past and are often lost in thought, pondering the mysteries of time.",
+                image: "https://placehold.co/200x200/ef4444/ffffff?text=Time",
+                link: "https://en.wikipedia.org/wiki/Time_travel"
+            },
+            {
+                name: "The Wandering Spirit",
+                description: "You have a restless spirit and a desire for adventure. You are always seeking new experiences and believe that the best stories are found on the road.",
+                image: "https://placehold.co/200x200/ef4444/ffffff?text=Spirit",
+                link: "https://en.wikipedia.org/wiki/Wandering_soul"
+            },
+            {
+                name: "The Caffeinated Cat",
+                description: "You are a blend of playful energy and cozy calm. You can be hyper-focused on your goals but also know the importance of a good nap.",
+                image: "https://placehold.co/200x200/ef4444/ffffff?text=Cat",
+                link: "https://en.wikipedia.org/wiki/Cat"
+            },
+            {
+                name: "The Forest Guardian",
+                description: "You are a protector of nature and all things wild. You have a quiet strength and a deep connection to the earth and its many secrets.",
+                image: "https://placehold.co/200x200/ef4444/ffffff?text=Forest",
+                link: "https://en.wikipedia.org/wiki/Forest_spirit"
+            },
+            {
+                name: "The Storyteller",
+                description: "You are a master of words and a keeper of tales. You have a vivid imagination and can spin a yarn that captivates and delights everyone around you.",
+                image: "https://placehold.co/200x200/ef4444/ffffff?text=Storyteller",
+                link: "https://en.wikipedia.org/wiki/Storyteller"
+            },
+            {
+                name: "The Sunbeam Sorcerer",
+                description: "You radiate warmth and positivity. Your magic is bright, and you have a gift for making even the gloomiest of days feel a little bit better.",
+                image: "https://placehold.co/200x200/ef4444/ffffff?text=Sorcerer",
+                link: "https://en.wikipedia.org/wiki/Sorcerer"
+            },
+            {
+                name: "The Quiet Knight",
+                description: "You are a person of few words, but your actions speak volumes. You are dependable, loyal, and stand tall in the face of adversity.",
+                image: "https://placehold.co/200x200/ef4444/ffffff?text=Knight",
+                link: "https://en.wikipedia.org/wiki/Knight"
+            },
+            {
+                name: "The Moon-Eater",
+                description: "You are a creature of the night, mysterious and a little bit strange. You are drawn to the magic of twilight and have a connection to the quiet parts of the world.",
+                image: "https://placehold.co/200x200/ef4444/ffffff?text=Moon",
+                link: "https://en.wikipedia.org/wiki/Moon"
+            },
+            {
+                name: "The Song-Weaver",
+                description: "You are a creative soul, able to find beauty in all things and express it through art. Your heart beats to its own rhythm, and you have a melody all your own.",
+                image: "https://placehold.co/200x200/ef4444/ffffff?text=Song",
+                link: "https://en.wikipedia.org/wiki/Song"
+            },
+            {
+                name: "The Spacewalker",
+                description: "You are a visionary with an adventurous heart. You are not bound by earthly constraints and are always looking for new frontiers to explore.",
+                image: "https://placehold.co/200x200/ef4444/ffffff?text=Space",
+                link: "https://en.wikipedia.org/wiki/Astronaut"
+            },
+            {
+                name: "The Cloud-Jumper",
+                description: "You are a free spirit who doesn't like to be tied down. You embrace spontaneity and believe that life is best when it's lived on the fly.",
+                image: "https://placehold.co/200x200/ef4444/ffffff?text=Jumper",
+                link: "https://en.wikipedia.org/wiki/Free_spirit"
+            },
+            {
+                name: "The Dream-Mender",
+                description: "You have a gentle and empathetic spirit. You are a natural caretaker, always there to mend broken hearts and offer a sense of comfort to others.",
+                image: "https://placehold.co/200x200/ef4444/ffffff?text=Dream",
+                link: "https://en.wikipedia.org/wiki/Dream"
+            },
+            {
+                name: "The River Sprite",
+                description: "You are a fluid and adaptable being, able to go with the flow of life. You have a calming presence and a connection to the natural world.",
+                image: "https://placehold.co/200x200/ef4444/ffffff?text=River",
+                link: "https://en.wikipedia.org/wiki/Sprite"
+            },
+            {
+                name: "The Sky Dancer",
+                description: "You are a graceful and elegant soul, finding beauty in movement and expression. You live with a joyful heart and love to explore the world with a sense of wonder.",
+                image: "https://placehold.co/200x200/ef4444/ffffff?text=Dancer",
+                link: "https://en.wikipedia.org/wiki/Dancer"
+            },
+            {
+                name: "The Earth Weaver",
+                description: "You are grounded and down-to-earth. You have a solid foundation and a deep appreciation for the simple things in life. You are a pillar of strength to those around you.",
+                image: "https://placehold.co/200x200/ef4444/ffffff?text=Weaver",
+                link: "https://en.wikipedia.org/wiki/Weaving"
+            },
+            {
+                name: "The Star-Gazer",
+                description: "You are a romantic and a philosopher. You are always looking up at the stars, pondering the big questions and the beauty of the universe.",
+                image: "https://placehold.co/200x200/ef4444/ffffff?text=Stargazer",
+                link: "https://en.wikipedia.org/wiki/Stargazing"
+            },
+            {
+                name: "The Wanderer",
+                description: "You are a free spirit, always on the move and seeking new experiences. You are not afraid to be a lone wolf, and you find comfort in the unknown.",
+                image: "https://placehold.co/200x200/ef4444/ffffff?text=Wanderer",
+                link: "https://en.wikipedia.org/wiki/Wanderer"
+            },
+            {
+                name: "The Sun-Rider",
+                description: "You are an optimist, always looking for the silver lining. You have a cheerful disposition and a radiant energy that lifts the spirits of those around you.",
+                image: "https://placehold.co/200x200/ef4444/ffffff?text=Sun",
+                link: "https://en.wikipedia.org/wiki/Optimism"
+            },
+            {
+                name: "The Night Guardian",
+                description: "You are a watchful and protective soul. You find peace in the darkness and are a beacon of strength and comfort to those who need it.",
+                image: "https://placehold.co/200x200/ef4444/ffffff?text=Guardian",
+                link: "https://en.wikipedia.org/wiki/Guardian"
+            },
+            {
+                name: "The Laughter Alchemist",
+                description: "You have a magical ability to turn sorrow into laughter. You are a source of lightheartedness and joy, and you believe that a good joke can fix anything.",
+                image: "https://placehold.co/200x200/ef4444/ffffff?text=Alchemist",
+                link: "https://en.wikipedia.org/wiki/Alchemist"
+            },
+            {
+                name: "The Mystic",
+                description: "You are deeply intuitive and in tune with the universe. You have a sense of wonder and a connection to things that are unseen and magical.",
+                image: "https://placehold.co/200x200/ef4444/ffffff?text=Mystic",
+                link: "https://en.wikipedia.org/wiki/Mystic"
+            },
+            {
+                name: "The Shadow-Walker",
+                description: "You are mysterious and elusive. You are comfortable in the shadows and have a keen eye for detail. You are a silent observer and a loyal friend.",
+                image: "https://placehold.co/200x200/ef4444/ffffff?text=Shadow",
+                link: "https://en.wikipedia.org/wiki/Shadow"
+            },
+            {
+                name: "The Dream Catcher",
+                description: "You are a gentle and nurturing spirit. You are good at listening and helping others, and you have a gift for turning dreams into reality.",
+                image: "https://placehold.co/200x200/ef4444/ffffff?text=Catcher",
+                link: "https://en.wikipedia.org/wiki/Dreamcatcher"
+            },
+            {
+                name: "The Mountain Soul",
+                description: "You are a rock. You are strong, dependable, and always there for others. You are resilient and have a peaceful nature.",
+                image: "https://placehold.co/200x200/ef4444/ffffff?text=Mountain",
+                link: "https://en.wikipedia.org/wiki/Mountain"
+            },
+            {
+                name: "The Rain Whisperer",
+                description: "You are a calming and reflective presence. You find solace in the quiet moments and have a deep appreciation for the beauty of nature.",
+                image: "https://placehold.co/200x200/ef4444/ffffff?text=Rain",
+                link: "https://en.wikipedia.org/wiki/Rain"
+            },
+            {
+                name: "The Sunlit Dancer",
+                description: "You are full of joy and life. You love to move and express yourself, and your energy is contagious. You are a bright and shining star.",
+                image: "https://placehold.co/200x200/ef4444/ffffff?text=Dancer",
+                link: "https://en.wikipedia.org/wiki/Dancer"
+            },
+            {
+                name: "The Ocean Singer",
+                description: "You are a free spirit with a deep sense of connection to the world around you. You are a lover of music and adventure, and you follow your heart wherever it leads.",
+                image: "https://placehold.co/200x200/ef4444/ffffff?text=Ocean",
+                link: "https://en.wikipedia.org/wiki/Ocean"
+            },
+            {
+                name: "The Firefly",
+                description: "You are a sparkling and magical presence. You are a source of light in the darkness, and you have a gift for making others feel seen and special.",
+                image: "https://placehold.co/200x200/ef4444/ffffff?text=Firefly",
+                link: "https://en.wikipedia.org/wiki/Firefly"
+            },
+            {
+                name: "The Cloud Weaver",
+                description: "You are an imaginative and creative person. You are always dreaming up new ideas and love to create things that are unique and beautiful.",
+                image: "https://placehold.co/200x200/ef4444/ffffff?text=Cloud+Weaver",
+                link: "https://en.wikipedia.org/wiki/Cloud_computing"
+            },
+            {
+                name: "The Echo",
+                description: "You are a person who listens deeply and reflects back the best parts of others. You have a quiet strength and a sense of calm that is reassuring to those around you.",
+                image: "https://placehold.co/200x200/ef4444/ffffff?text=Echo",
+                link: "https://en.wikipedia.org/wiki/Echo_(mythology)"
+            },
+            {
+                name: "The Whisper",
+                description: "You are a gentle and intuitive soul. You are in tune with the subtle energies of the world and have a calm and soothing presence.",
+                image: "https://placehold.co/200x200/ef4444/ffffff?text=Whisper",
+                link: "https://en.wikipedia.org/wiki/Whisper"
+            },
+            {
+                name: "The Comet",
+                description: "You are a dazzling and brilliant spirit. You are a force of nature, and you leave a trail of light and inspiration wherever you go.",
+                image: "https://placehold.co/200x200/ef4444/ffffff?text=Comet",
+                link: "https://en.wikipedia.org/wiki/Comet"
+            },
+            {
+                name: "The Sun-Drinker",
+                description: "You are a lover of light and warmth. You are always optimistic and find joy in the simple things, and you have a radiant energy that is infectious.",
+                image: "https://placehold.co/200x200/ef4444/ffffff?text=Sun-Drinker",
+                link: "https://en.wikipedia.org/wiki/Sun"
+            },
+            {
+                name: "The Tree Whisperer",
+                description: "You are a person with a deep connection to nature and a love for all things green. You are patient, wise, and have a calming presence.",
+                image: "https://placehold.co/200x200/ef4444/ffffff?text=Tree",
+                link: "https://en.wikipedia.org/wiki/Tree"
+            },
+            {
+                name: "The River Guide",
+                description: "You are a steady and guiding force. You are a dependable friend and a source of wisdom to those who need it. You are always there to help others find their way.",
+                image: "https://placehold.co/200x200/ef4444/ffffff?text=River+Guide",
+                link: "https://en.wikipedia.org/wiki/River"
+            }
+        ];
+
+        // The grey dots now use a placeholder without text
+        const greyDotUrl = 'https://placehold.co/20x20/cccccc/cccccc';
+
+        // A pool of 40 unique placeholder images to choose from for the dots.
+        // This ensures the progress dots are unique each time the quiz is started.
+        const imagePool = [
+            "https://i-p.rmcdn.net/651d2215ae21b60019215ac4/4442604/image-dae0e425-dd14-4a64-a425-d6f5298f8c8a.png?w=179&e=webp&nll=true&cX=0&cY=0.08852288119851437&cW=2702&cH=2701.822954237603", "https://i-p.rmcdn.net/651d2215ae21b60019215ac4/4442604/image-4128892b-9170-472b-81f6-ce4283f3545f.png?w=171&e=webp&nll=true", "https://i-p.rmcdn.net/651d2215ae21b60019215ac4/4442604/image-56feef02-ccc2-470f-b8e9-c08e9fa415f3.png?w=158&e=webp&nll=true",
+            "https://i-p.rmcdn.net/651d2215ae21b60019215ac4/4442604/image-e8c501dd-9a3e-4350-8dea-587b4435ce14.png?w=175&e=webp&nll=true&cX=0&cY=0&cW=2692&cH=2637", "https://i-p.rmcdn.net/651d2215ae21b60019215ac4/4442604/image-46d4ee9b-1e81-4cfb-b9c9-21d169d66ab8.png?w=175&e=webp&nll=true", "https://i-p.rmcdn.net/651d2215ae21b60019215ac4/4442604/image-16164a09-e532-4f37-aa38-7bb225ad7107.png?w=165&e=webp&nll=true",
+          "https://i-p.rmcdn.net/651d2215ae21b60019215ac4/4442604/image-11902c45-3b9e-49af-a0a9-43dad28d74ef.png?w=173&e=webp&nll=true", "https://placehold.co/32x32/a6a6c0/000000?text=8", "https://placehold.co/32x32/c0a6a6/000000?text=9",
+            "https://placehold.co/32x32/a3c0a6/000000?text=10", "https://placehold.co/32x32/66c3ff/000000?text=11", "https://placehold.co/32x32/f0a080/000000?text=12",
+            "https://placehold.co/32x32/ffc3b0/000000?text=13", "https://placehold.co/32x32/b1a6d0/000000?text=14", "https://placehold.co/32x32/c0b1d0/000000?text=15",
+            "https://placehold.co/32x32/a6c0c1/000000?text=16", "https://placehold.co/32x32/a6a6d0/000000?text=17", "https://placehold.co/32x32/c0a6c1/000000?text=18",
+            "https://placehold.co/32x32/a3c0b6/000000?text=19", "https://placehold.co/32x32/66c3d0/000000?text=20", "https://placehold.co/32x32/f0b080/000000?text=21",
+            "https://placehold.co/32x32/ffc3c0/000000?text=22", "https://placehold.co/32x32/b1a6e0/000000?text=23", "https://placehold.co/32x32/c0b1e0/000000?text=24",
+            "https://placehold.co/32x32/a6c0d1/000000?text=25", "https://placehold.co/32x32/a6a6e0/000000?text=26", "https://placehold.co/32x32/c0a6d1/000000?text=27",
+            "https://placehold.co/32x32/a3c0d6/000000?text=28", "https://placehold.co/32x32/66c3e0/000000?text=29", "https://placehold.co/32x32/f0d080/000000?text=30",
+            "https://placehold.co/32x32/ffc3d0/000000?text=31", "https://placehold.co/32x32/b1a6f0/000000?text=32", "https://placehold.co/32x32/c0b1f0/000000?text=33",
+            "https://placehold.co/32x32/a6c0e1/000000?text=34", "https://placehold.co/32x32/a6a6f0/000000?text=35", "https://placehold.co/32x32/c0a6e1/000000?text=36",
+            "https://placehold.co/32x32/a3c0d6/000000?text=37", "https://placehold.co/32x32/66c3f0/000000?text=38", "https://placehold.co/32x32/f0d080/000000?text=39",
+            "https://placehold.co/32x32/ffc3e0/000000?text=40"
+        ];
+
+        const startContainer = document.getElementById('start-container');
+        const startButton = document.getElementById('start-button');
+        const quizForm = document.getElementById('quiz-form');
+        const quizContainer = document.getElementById('quiz-container');
+        const resultsContainer = document.getElementById('results-container');
+        const resultName = document.getElementById('result-name');
+        const resultImage = document.getElementById('result-image');
+        const resultImageLink = document.getElementById('result-image-link');
+        const resultText = document.getElementById('result-text');
+        const restartButton = document.getElementById('restart-button');
+        const loadingMessage = document.getElementById('loading-message');
+        const questionPages = document.querySelectorAll('.question-page');
+        const nextButtons = document.querySelectorAll('.next-button');
+        const submitButton = document.getElementById('submit-button');
+        const progressDotsContainer = document.getElementById('progress-dots');
+        const totalQuestions = questionPages.length;
+
+        let currentQuestionIndex = 0;
+        let shuffledImagePool = [];
+        let imagePoolIndex = 0;
+
+        function showQuestion(index) {
+            questionPages.forEach(page => page.classList.remove('active'));
+            if (questionPages[index]) {
+                questionPages[index].classList.add('active');
+            }
+        }
+
+        // Fisher-Yates shuffle algorithm to randomize the image pool
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        function createDots() {
+            progressDotsContainer.innerHTML = '';
+            // Create grey placeholder dots initially
+            for (let i = 0; i < totalQuestions; i++) {
+                const img = document.createElement('img');
+                img.classList.add('progress-image', 'w-5', 'h-5', 'sm:w-8', 'sm:h-8', 'rounded-full', 'transition-all', 'duration-300', 'object-cover');
+                img.src = greyDotUrl;
+                progressDotsContainer.appendChild(img);
+            }
+        }
+
+        function handleNextClick(event) {
+            const questionIndex = currentQuestionIndex;
+            const selectedOption = document.querySelector(`input[name="question${questionIndex}"]:checked`);
+            if (!selectedOption) {
+                console.warn("Please select an option before proceeding.");
+                return;
+            }
+
+            // Update the dot for the current question
+            const dot = progressDotsContainer.children[questionIndex];
+            dot.src = shuffledImagePool[imagePoolIndex];
+            dot.classList.add('pulse-animation');
+            imagePoolIndex++;
+
+            // Remove the animation class after the animation ends to allow it to be re-triggered
+            setTimeout(() => {
+                dot.classList.remove('pulse-animation');
+            }, 500);
+
+            currentQuestionIndex++;
+            showQuestion(currentQuestionIndex);
+        }
+
+        function calculateResults(e) {
+            e.preventDefault();
+            const allAnswered = Array.from(questionPages).every((q, index) =>
+                document.querySelector(`input[name="question${index}"]:checked`)
+            );
+            if (!allAnswered) {
+                console.warn("Please answer all the questions to get your result!");
+                return;
+            }
+
+            // Update the last dot with a pulse animation
+            const lastDot = progressDotsContainer.children[totalQuestions - 1];
+            lastDot.src = shuffledImagePool[imagePoolIndex];
+            lastDot.classList.add('pulse-animation');
+            imagePoolIndex++;
+
+            setTimeout(() => {
+                lastDot.classList.remove('pulse-animation');
+            }, 500);
+
+            let totalScore = 0;
+            for (let i = 0; i < questionPages.length; i++) {
+                const selectedOption = document.querySelector(`input[name="question${i}"]:checked`);
+                if (selectedOption) {
+                    totalScore += parseInt(selectedOption.dataset.points, 10);
+                }
+            }
+
+            submitButton.style.display = 'none';
+            loadingMessage.style.display = 'block';
+
+            setTimeout(() => {
+                const resultIndex = totalScore - 1;
+                const result = characterList[resultIndex];
+
+                if (result) {
+                    resultName.textContent = result.name;
+                    resultImage.src = result.image;
+                    resultImage.alt = result.name + " portrait";
+                    resultImageLink.href = result.link;
+                    resultText.innerHTML = `${result.description} <a href="${result.link}" target="_blank" class="text-red-600 hover:text-red-700 font-semibold underline transition-colors">Read more.</a>`;
+                } else {
+                    resultName.textContent = "Oops!";
+                    resultImage.src = "";
+                    resultImage.alt = "";
+                    resultImageLink.href = "#";
+                    resultText.innerHTML = "Something went wrong! Please try the quiz again.";
+                }
+
+                loadingMessage.style.display = 'none';
+                quizContainer.style.display = 'none';
+                resultsContainer.style.display = 'block';
+            }, 1000);
+        }
+
+        function restartQuiz() {
+            quizForm.reset();
+            currentQuestionIndex = 0;
+            imagePoolIndex = 0;
+            shuffledImagePool = [...imagePool];
+            shuffleArray(shuffledImagePool);
+            createDots();
+            showQuestion(currentQuestionIndex);
+            quizContainer.style.display = 'block';
+            resultsContainer.style.display = 'none';
+            submitButton.style.display = 'block';
+        }
+
+        startButton.addEventListener('click', () => {
+            startContainer.classList.add('hidden');
+            quizContainer.classList.remove('hidden');
+            showQuestion(0);
+        });
+
+        nextButtons.forEach(button => {
+            button.addEventListener('click', handleNextClick);
+        });
+        submitButton.addEventListener('click', calculateResults);
+        restartButton.addEventListener('click', restartQuiz);
+
+        window.onload = () => {
+            shuffledImagePool = [...imagePool];
+            shuffleArray(shuffledImagePool);
+            createDots();
+        };
+    </script>
+</body>
+</html>
